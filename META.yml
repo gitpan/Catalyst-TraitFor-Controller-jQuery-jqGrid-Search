@@ -16,11 +16,12 @@ name: Catalyst-TraitFor-Controller-jQuery-jqGrid-Search
 provides:
   Catalyst::TraitFor::Controller::jQuery::jqGrid::Search:
     file: lib/Catalyst/TraitFor/Controller/jQuery/jqGrid/Search.pm
-    version: 0.01
+    version: 0.02
 requires:
   JSON: 0
   Moose::Role: 0
   perl: 5.008008
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.01
+  repository: http://app.srkconsulting.com/repos/jqGridSearch/
+version: 0.02

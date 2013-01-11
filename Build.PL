@@ -24,6 +24,11 @@ my $builder = Module::Build->new(
     },
     add_to_cleanup      => [ 'Catalyst-TraitFor-Controller-jQuery-jqGrid-Search-*' ],
     create_makefile_pl  => 'traditional',
-);
+    meta_merge => {
+      resources => {
+        repository => 'http://app.srkconsulting.com/repos/jqGridSearch/',
+      }
+    },
+  );
 
 $builder->create_build_script();

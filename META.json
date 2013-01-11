@@ -35,14 +35,17 @@
    "provides" : {
       "Catalyst::TraitFor::Controller::jQuery::jqGrid::Search" : {
          "file" : "lib/Catalyst/TraitFor/Controller/jQuery/jqGrid/Search.pm",
-         "version" : "0.01"
+         "version" : "0.02"
       }
    },
    "release_status" : "stable",
    "resources" : {
       "license" : [
          "http://dev.perl.org/licenses/"
-      ]
+      ],
+      "repository" : {
+         "url" : "http://app.srkconsulting.com/repos/jqGridSearch/"
+      }
    },
-   "version" : "0.01"
+   "version" : "0.02"
 }

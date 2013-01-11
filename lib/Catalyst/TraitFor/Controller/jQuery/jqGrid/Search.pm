@@ -5,7 +5,7 @@ use 5.008;
 use Moose::Role;
 use JSON;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 my %qOp = (
     'eq' => { pre => '',  post => '',  op => '=', },            # equal
@@ -115,11 +115,11 @@ sub jqGrid_search {
 
 =head1 NAME
 
-Catalyst::TraitFor::Controller::jQuery::jqGrid::Search
+Catalyst::TraitFor::Controller::jQuery::jqGrid::Search - Catalyst helper function for translating jqGrid search parameters
 
 =head1 VERSION
 
-Version 0.01
+Version 0.02
 
 =head1 SYNOPSIS
 
@@ -127,24 +127,24 @@ Helper for translating search queries from the jQuery plugin jqGrid.
 
 In your Catalyst Controller.
 
-package MyApp::Web::Controller::Root;
+  package MyApp::Web::Controller::Root;
 
-use Moose;
-use namespace::autoclean;
+  use Moose;
+  use namespace::autoclean;
 
-with 'Catalyst::TraitFor::Controller::jQuery::jqGrid::Search';
+  with 'Catalyst::TraitFor::Controller::jQuery::jqGrid::Search';
 
 Then later on in your controllers you can do
 
-sub foo :Local {
-  my ($self, $c) = @_;
+  sub foo :Local {
+    my ($self, $c) = @_;
 
-  my $search_filter = $self->jqGrid_search($c->req->params);
+    my $search_filter = $self->jqGrid_search($c->req->params);
 
-  my $bar_rs = $c->model('DB::Baz')->search(
+    my $bar_rs = $c->model('DB::Baz')->search(
       $search_filter,
       {},
-      );
+    );
 
 =head1 DESCRIPTION
 
@@ -156,7 +156,7 @@ through data obtained from a back-end database. Ajax calls to the back-end
 retrieve JSON data. See L<http://www.trirand.com/blog/>
 
 This module provides a helper function to translate the jqGrid simple and/or
-complex search query strings to the L<DBIx::Class|/DBIx::Class/> /
+complex search query strings to the L<DBIx::Class|DBIx::Class/> /
 L<SQL::Abstract|SQL::Abstract/> search/where constructs.
 
 =head1 SUBROUTINES/METHODS
@@ -183,24 +183,26 @@ For example, the query: "B<( (name LIKE "%Bob%" AND tax E<gt>= 20) OR
 (note LIKE "no tax%" AND amount E<lt> 1000) )>"
 would result in the following:
 
-  filters = '{"groupOp":"OR","rules":[],"groups":[{"groupOp":"AND","rules":[{"field":"name","op":"cn","data":"Bob"},{"field":"tax","op":"ge","data":20}],"groups":[]},{"groupOp":"AND","rules":[{"field":"note","op":"bw","data":"no tax"},{"field":"amount","op":"lt","data":"1000"}],"groups":[]}]}'
+  filters = '{"groupOp":"OR","rules":[],"groups":[{"groupOp":"AND","rules":[{"field":"name","op":"cn","data":"Bob"},
+             {"field":"tax","op":"ge","data":20}],"groups":[]},{"groupOp":"AND","rules":[{"field":"note","op":"bw",
+             "data":"no tax"},{"field":"amount","op":"lt","data":"1000"}],"groups":[]}]}'
 
 jqGrid_search translates that into:
 
   {
     '-or' => [
-    {
-      '-and' => [
-      { 'name' => { '-like' => '%Bob%' } },
-      { 'tax' => { '>=' => '20' } }
-      ]
-    },
-    {
-      '-and' => [
-      { 'note' => { '-like' => 'no tax%' } },
-      { 'amount' => { '<' => '1000' } }
-      ]
-    }
+      {
+        '-and' => [
+          { 'name'   => { '-like' => '%Bob%' } },
+          { 'tax'    => { '>=' => '20' } }
+        ]
+      },
+      {
+        '-and' => [
+          { 'note'   => { '-like' => 'no tax%' } },
+          { 'amount' => { '<' => '1000' } }
+        ]
+      }
     ]
   }
 
@@ -243,13 +245,13 @@ jqGrid_search translates that into:
 =item * in ( is in )
 
 According to L<http://stackoverflow.com/questions/9383267/what-is-the-usage-of-jqgrid-search-is-in-and-is-not-in> 'in' and 'ni' are
-not set-based operators (C<WHERE field IN (val,val,val)>) but are: "I<... the equivalents of contains and does not contain, with the operands reversed>", thus:
+not set-based operators (C<WHERE field IN (val1,val2,val3)>) but are: "I<... the equivalents of contains and does not contain, with the operands reversed>", thus:
 
-... WHERE searchString like '%searchField%'
+... WHERE searchB<String> like '%searchB<Field>%'
 
 =item * ni ( is not in )
 
-... WHERE searchString not like '%searchField%'
+... WHERE searchB<String> not like '%searchB<Field>%'
 
 =item * ew ( ends with )
 
@@ -319,7 +321,8 @@ L<http://search.cpan.org/dist/Catalyst-TraitFor-Controller-jQuery-jqGrid-Search/
 
 =head1 ACKNOWLEDGEMENTS
 
-Thanks to Ian Docherty <pause@iandocherty.com> for L<http://search.cpan.org/dist/Catalyst-TraitFor-Controller-jQuery-jqGrid>, which I used as a template for this code.
+Thanks to Ian Docherty <pause@iandocherty.com> for L<Catalyst::TraitFor::Controller::jQuery::jqGrid|Catalyst::TraitFor::Controller::jQuery::jqGrid>,
+which I used as a template for this code.
 
 =head1 LICENSE AND COPYRIGHT
 
